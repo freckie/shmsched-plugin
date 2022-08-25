@@ -33,11 +33,11 @@ import (
 	fwkruntime "k8s.io/kubernetes/pkg/scheduler/framework/runtime"
 	st "k8s.io/kubernetes/pkg/scheduler/testing"
 
-	"sigs.k8s.io/scheduler-plugins/apis/scheduling"
-	"sigs.k8s.io/scheduler-plugins/apis/scheduling/v1alpha1"
-	"sigs.k8s.io/scheduler-plugins/pkg/capacityscheduling"
-	"sigs.k8s.io/scheduler-plugins/pkg/generated/clientset/versioned"
-	"sigs.k8s.io/scheduler-plugins/test/util"
+	"github.com/freckie/shmsched-plugin/apis/scheduling"
+	"github.com/freckie/shmsched-plugin/apis/scheduling/v1alpha1"
+	"github.com/freckie/shmsched-plugin/pkg/capacityscheduling"
+	"github.com/freckie/shmsched-plugin/pkg/generated/clientset/versioned"
+	"github.com/freckie/shmsched-plugin/test/util"
 )
 
 func TestCapacityScheduling(t *testing.T) {

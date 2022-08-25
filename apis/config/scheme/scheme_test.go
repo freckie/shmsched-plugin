@@ -28,13 +28,13 @@ import (
 	schedconfig "k8s.io/kubernetes/pkg/scheduler/apis/config"
 	"k8s.io/kubernetes/pkg/scheduler/apis/config/testing/defaults"
 
-	"sigs.k8s.io/scheduler-plugins/apis/config"
-	"sigs.k8s.io/scheduler-plugins/apis/config/v1beta2"
-	"sigs.k8s.io/scheduler-plugins/pkg/coscheduling"
-	"sigs.k8s.io/scheduler-plugins/pkg/noderesources"
-	"sigs.k8s.io/scheduler-plugins/pkg/preemptiontoleration"
-	"sigs.k8s.io/scheduler-plugins/pkg/trimaran/loadvariationriskbalancing"
-	"sigs.k8s.io/scheduler-plugins/pkg/trimaran/targetloadpacking"
+	"github.com/freckie/shmsched-plugin/apis/config"
+	"github.com/freckie/shmsched-plugin/apis/config/v1beta2"
+	"github.com/freckie/shmsched-plugin/pkg/coscheduling"
+	"github.com/freckie/shmsched-plugin/pkg/noderesources"
+	"github.com/freckie/shmsched-plugin/pkg/preemptiontoleration"
+	"github.com/freckie/shmsched-plugin/pkg/trimaran/loadvariationriskbalancing"
+	"github.com/freckie/shmsched-plugin/pkg/trimaran/targetloadpacking"
 	"sigs.k8s.io/yaml"
 )
 

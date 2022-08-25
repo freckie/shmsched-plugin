@@ -33,11 +33,11 @@ import (
 	"k8s.io/klog/v2"
 	"k8s.io/kubernetes/pkg/scheduler/framework"
 
-	"sigs.k8s.io/scheduler-plugins/apis/scheduling/v1alpha1"
-	pgclientset "sigs.k8s.io/scheduler-plugins/pkg/generated/clientset/versioned"
-	pginformer "sigs.k8s.io/scheduler-plugins/pkg/generated/informers/externalversions/scheduling/v1alpha1"
-	pglister "sigs.k8s.io/scheduler-plugins/pkg/generated/listers/scheduling/v1alpha1"
-	"sigs.k8s.io/scheduler-plugins/pkg/util"
+	"github.com/freckie/shmsched-plugin/apis/scheduling/v1alpha1"
+	pgclientset "github.com/freckie/shmsched-plugin/pkg/generated/clientset/versioned"
+	pginformer "github.com/freckie/shmsched-plugin/pkg/generated/informers/externalversions/scheduling/v1alpha1"
+	pglister "github.com/freckie/shmsched-plugin/pkg/generated/listers/scheduling/v1alpha1"
+	"github.com/freckie/shmsched-plugin/pkg/util"
 )
 
 type Status string

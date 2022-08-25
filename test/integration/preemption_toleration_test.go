@@ -35,9 +35,9 @@ import (
 	st "k8s.io/kubernetes/pkg/scheduler/testing"
 	imageutils "k8s.io/kubernetes/test/utils/image"
 
-	schedconfig "sigs.k8s.io/scheduler-plugins/apis/config"
-	"sigs.k8s.io/scheduler-plugins/pkg/preemptiontoleration"
-	"sigs.k8s.io/scheduler-plugins/test/util"
+	schedconfig "github.com/freckie/shmsched-plugin/apis/config"
+	"github.com/freckie/shmsched-plugin/pkg/preemptiontoleration"
+	"github.com/freckie/shmsched-plugin/test/util"
 )
 
 func TestPreemptionTolerationPlugin(t *testing.T) {

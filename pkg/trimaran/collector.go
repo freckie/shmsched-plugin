@@ -26,7 +26,7 @@ import (
 
 	"k8s.io/klog/v2"
 
-	pluginConfig "sigs.k8s.io/scheduler-plugins/apis/config"
+	pluginConfig "github.com/freckie/shmsched-plugin/apis/config"
 )
 
 const (

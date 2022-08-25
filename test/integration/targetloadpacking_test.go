@@ -39,10 +39,10 @@ import (
 	st "k8s.io/kubernetes/pkg/scheduler/testing"
 	imageutils "k8s.io/kubernetes/test/utils/image"
 
-	"sigs.k8s.io/scheduler-plugins/apis/config"
-	"sigs.k8s.io/scheduler-plugins/apis/config/v1beta2"
-	"sigs.k8s.io/scheduler-plugins/pkg/trimaran/targetloadpacking"
-	"sigs.k8s.io/scheduler-plugins/test/util"
+	"github.com/freckie/shmsched-plugin/apis/config"
+	"github.com/freckie/shmsched-plugin/apis/config/v1beta2"
+	"github.com/freckie/shmsched-plugin/pkg/trimaran/targetloadpacking"
+	"github.com/freckie/shmsched-plugin/test/util"
 )
 
 func TestTargetNodePackingPlugin(t *testing.T) {
