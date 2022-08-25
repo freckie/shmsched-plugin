@@ -29,6 +29,7 @@ import (
 	"github.com/freckie/shmsched-plugin/pkg/podstate"
 	"github.com/freckie/shmsched-plugin/pkg/preemptiontoleration"
 	"github.com/freckie/shmsched-plugin/pkg/qos"
+	"github.com/freckie/shmsched-plugin/pkg/shmscoring"
 	"github.com/freckie/shmsched-plugin/pkg/trimaran/loadvariationriskbalancing"
 	"github.com/freckie/shmsched-plugin/pkg/trimaran/targetloadpacking"
 
@@ -52,6 +53,7 @@ func main() {
 		// app.WithPlugin(crossnodepreemption.Name, crossnodepreemption.New),
 		app.WithPlugin(podstate.Name, podstate.New),
 		app.WithPlugin(qos.Name, qos.New),
+		app.WithPlugin(shmscoring.Name, shmscoring.New),
 	)
 
 	code := cli.Run(command)
