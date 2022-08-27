@@ -112,7 +112,3 @@ func (s *ShmScoring) NormalizeScore(
 	klog.Infof("[ShmScoring] final scores: %v", scores)
 	return nil
 }
-
-func main() {
-	klog.InfoS("shmscoring")
-}
