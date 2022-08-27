@@ -5,6 +5,7 @@ package shmscoring
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/freckie/shmsched-plugin/apis/config"
 	v1 "k8s.io/api/core/v1"
@@ -43,14 +44,45 @@ func (s *ShmScoring) Name() string {
 func (s *ShmScoring) Score(ctx context.Context, state *framework.CycleState, p *v1.Pod, nodeName string) (int64, *framework.Status) {
 	var score int64
 
+	// getting pod labels
+	labels := p.ObjectMeta.Labels
+	modelName, ok := labels["shmfaas-model-name"]
+	if !ok {
+		return 0, framework.NewStatus(framework.Error, "label \"shmfaas-model-name\" is not specified.")
+	}
+	tagName, ok := labels["shmfaas-tag-name"]
+	if !ok {
+		return 0, framework.NewStatus(framework.Error, "label \"shmfaas-tag-name\" is not specified.")
+	}
+	_shmRequest, ok := labels["shmfaas-shm-request"]
+	if !ok {
+		return 0, framework.NewStatus(framework.Error, "label \"shmfaas-shm-request\" is not specified.")
+	}
+	shmRequest, err := strconv.ParseInt(_shmRequest, 10, 64)
+	if err != nil {
+		return 0, framework.NewStatus(framework.Error, "expected int64 value for \"shmfaas-shm-request\".")
+	}
+	modelTag := modelName + ":" + tagName
+
 	// getting node metric
 	metric, err := s.conn.GetNodeMetric(nodeName)
 	if err != nil {
 		return 0, framework.NewStatus(framework.Error, fmt.Sprintf("error getting node metrics: %s", err))
 	}
+	hasDeployed := false
+	for _, model := range metric.Models {
+		if modelTag == model {
+			hasDeployed = true
+			break
+		}
+	}
 
 	// scoring
-	score = metric.ShmSum
+	if !hasDeployed && (shmRequest < metric.ShmDiskFree) {
+		score = 0
+	} else {
+		score = 100 - int64((metric.ShmDiskUsed+shmRequest)*100/metric.ShmDiskAll)
+	}
 
 	klog.Infof("[ShmScoring] node \"%s\" score \"%d\"", nodeName, score)
 	return score, nil
