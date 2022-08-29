@@ -36,7 +36,7 @@ RELEASE_CONTROLLER_IMAGE:=controller:$(RELEASE_VERSION)
 VERSION=$(shell echo $(RELEASE_VERSION) | awk -F - '{print $$2}')
 
 SHMSCHED_REGISTRY=ghcr.io/freckie
-SHMSCHED_IMAGE=shmsched-scheduler
+SHMSCHED_IMAGE=shmfaas-scheduler
 SHMSCHED_VERSION="$(RELEASE_VERSION)"
 
 .PHONY: shmsched.build
