@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	klog "k8s.io/klog/v2"
 )
 
 const (
@@ -22,6 +24,8 @@ func NewShmmConnector(addrs []string, ports []string) *ShmmConnector {
 	for idx, addr := range addrs {
 		s.ShmmAddrPorts[addr] = ports[idx]
 	}
+
+	klog.Infof("[ShmScoring] ShmmAddrPorts in ShmmConnector : %v", s.ShmmAddrPorts)
 
 	return s
 }

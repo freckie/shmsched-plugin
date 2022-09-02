@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/freckie/shmsched-plugin/apis/config"
 	v1 "k8s.io/api/core/v1"
@@ -29,11 +30,23 @@ func New(obj runtime.Object, h framework.Handle) (framework.Plugin, error) {
 		return nil, fmt.Errorf("[ShmScoring] want args to be of type ShmScoringArgs, got %T", obj)
 	}
 
-	klog.Infof("[ShmScoring] args received. args:%s", args)
+	klog.Infof("[ShmScoring] args received. args: %v", args)
+
+	var _tokens []string
+	addrs := make([]string, len(args.AddrPorts))
+	ports := make([]string, len(args.AddrPorts))
+	for i, item := range args.AddrPorts {
+		_tokens = strings.Split(item, ":")
+		addrs[i] = _tokens[0]
+		ports[i] = _tokens[1]
+	}
+
+	klog.Infof("[ShmScoring] addrs : %v", addrs)
+	klog.Infof("[ShmScoring] ports : %v", ports)
 
 	return &ShmScoring{
 		handle: h,
-		conn:   NewShmmConnector([]string{}, []string{}),
+		conn:   NewShmmConnector(addrs, ports),
 	}, nil
 }
 
