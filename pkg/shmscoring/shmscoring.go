@@ -56,6 +56,7 @@ func (s *ShmScoring) Name() string {
 
 func (s *ShmScoring) Score(ctx context.Context, state *framework.CycleState, p *v1.Pod, nodeName string) (int64, *framework.Status) {
 	var score int64
+	klog.Infof("[ShmScoring] Started to scoring nodes")
 
 	// getting pod labels
 	labels := p.ObjectMeta.Labels
