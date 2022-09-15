@@ -80,7 +80,7 @@ func (s *ShmScoring) Score(ctx context.Context, state *framework.CycleState, p *
 
 	// scoring
 	if !hasDeployed && (shmRequest < metric.ShmDiskFree) {
-		score = 0
+		score = 1
 	} else {
 		score = 100 - int64((metric.ShmDiskUsed+shmRequest)*100/metric.ShmDiskAll)
 	}
@@ -99,15 +99,20 @@ func (s *ShmScoring) NormalizeScore(
 	pod *v1.Pod,
 	scores framework.NodeScoreList,
 ) *framework.Status {
-	var highestScore int64
+	var highestScore int64 = 0
+	var lowestScore int64 = 100
 	for _, node := range scores {
 		if highestScore < node.Score {
 			highestScore = node.Score
 		}
+		if lowestScore > node.Score {
+			lowestScore = node.Score
+		}
 	}
 
 	for i, node := range scores {
-		scores[i].Score = framework.MaxNodeScore - (node.Score * framework.MaxNodeScore / highestScore)
+		scores[i].Score = node.Score + lowestScore
+		scores[i].Score = framework.MaxNodeScore - (scores[i].Score * framework.MaxNodeScore / highestScore)
 	}
 
 	klog.Infof("[ShmScoring] final scores: %v", scores)
