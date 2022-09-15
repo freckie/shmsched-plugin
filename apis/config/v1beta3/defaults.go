@@ -154,7 +154,7 @@ func SetDefaults_PreemptionTolerationArgs(obj *PreemptionTolerationArgs) {
 
 // SetDefaults_ShmScoringArgs sets the default parameter for ShmScoringArgs
 func SetDefaults_ShmScoringArgs(args *ShmScoringArgs) {
-	if args.AddrPorts == nil {
-		args.AddrPorts = make([]string, 0)
+	if args.Targets == nil {
+		args.Targets = make([]ShmScoringTarget, 0)
 	}
 }
