@@ -83,6 +83,9 @@ func (s *ShmScoring) Score(ctx context.Context, state *framework.CycleState, p *
 		score = 1
 	} else {
 		score = 100 - int64((metric.ShmDiskUsed+shmRequest)*100/metric.ShmDiskAll)
+		if score <= 0 {
+			score = 1
+		}
 	}
 
 	klog.Infof("[ShmScoring] node \"%s\" score \"%d\"", nodeName, score)
@@ -111,8 +114,7 @@ func (s *ShmScoring) NormalizeScore(
 	}
 
 	for i, node := range scores {
-		scores[i].Score = node.Score + lowestScore
-		scores[i].Score = framework.MaxNodeScore - (scores[i].Score * framework.MaxNodeScore / highestScore)
+		scores[i].Score = framework.MaxNodeScore - (node.Score * framework.MaxNodeScore / highestScore)
 	}
 
 	klog.Infof("[ShmScoring] final scores: %v", scores)
