@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/freckie/shmsched-plugin/apis/config"
 	klog "k8s.io/klog/v2"
 )
 
@@ -14,18 +15,18 @@ const (
 )
 
 type ShmmConnector struct {
-	ShmmAddrPorts map[string]string
+	Targets map[string]config.ShmScoringTarget
 }
 
-func NewShmmConnector(addrs []string, ports []string) *ShmmConnector {
+func NewShmmConnector(targets []config.ShmScoringTarget) *ShmmConnector {
 	s := &ShmmConnector{
-		ShmmAddrPorts: make(map[string]string),
+		Targets: make(map[string]config.ShmScoringTarget),
 	}
-	for idx, addr := range addrs {
-		s.ShmmAddrPorts[addr] = ports[idx]
+	for _, t := range targets {
+		s.Targets[t.NodeName] = t
 	}
 
-	klog.Infof("[ShmScoring] ShmmAddrPorts in ShmmConnector : %v", s.ShmmAddrPorts)
+	klog.Infof("[ShmScoring] Targets in ShmmConnector : %v", s.Targets)
 
 	return s
 }
@@ -33,11 +34,12 @@ func NewShmmConnector(addrs []string, ports []string) *ShmmConnector {
 func (s *ShmmConnector) GetNodeMetric(nodeName string) (NodeMetric, error) {
 	result := NodeMetric{}
 
-	if _, ok := s.ShmmAddrPorts[nodeName]; !ok {
+	t, ok := s.Targets[nodeName]
+	if !ok {
 		return result, fmt.Errorf("nodeName \"%s\" not found in ShmmConnector.", nodeName)
 	}
 
-	url := fmt.Sprintf(urlFormat, nodeName, s.ShmmAddrPorts[nodeName], "/metrics/mem")
+	url := fmt.Sprintf(urlFormat, t.IP, t.Port, "/metrics/mem")
 	resp, err := http.Get(url)
 	if err != nil {
 		return result, err

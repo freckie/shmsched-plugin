@@ -151,12 +151,18 @@ type NodeResourceTopologyMatchArgs struct {
 // PreemptionTolerationArgs reuses DefaultPluginArgs.
 type PreemptionTolerationArgs schedulerconfigv1beta3.DefaultPreemptionArgs
 
+type ShmScoringTarget struct {
+	NodeName string `json:"nodeName,omitempty"`
+	IP       string `json:"ip,omitempty"`
+	Port     string `json:"port,omitempty"`
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // ShmScoringArgs configures ShmScoring plugin
 type ShmScoringArgs struct {
 	metav1.TypeMeta `json:",inline"`
 
-	// List of {addr:port}s of the shmm daemonsets
-	AddrPorts []string `json:"addrports,omitempty"`
+	// List of targets
+	Targets []ShmScoringTarget `json:"targets,omitempty"`
 }
