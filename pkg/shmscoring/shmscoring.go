@@ -102,21 +102,8 @@ func (s *ShmScoring) NormalizeScore(
 	pod *v1.Pod,
 	scores framework.NodeScoreList,
 ) *framework.Status {
-	var highestScore int64 = 0
-	var lowestScore int64 = 100
-	for _, node := range scores {
-		if highestScore < node.Score {
-			highestScore = node.Score
-		}
-		if lowestScore > node.Score {
-			lowestScore = node.Score
-		}
-	}
-
 	for i, node := range scores {
-		scores[i].Score = framework.MaxNodeScore - (node.Score * framework.MaxNodeScore / highestScore)
+		scores[i].Score = node.Score
 	}
-
-	klog.Infof("[ShmScoring] final scores: %v", scores)
 	return nil
 }
